@@ -74,6 +74,7 @@ handles.printer = '';
 handles.clim = [min(handles.im_data(:)) max(handles.im_data(:))];
 handles.save = varargin{8};
 handles.fid = varargin{9};
+handles.phase = varargin{10};
 
 axes(handles.axes1)
 handles.im_object = imshow(handles.im_data,handles.r,[]);
@@ -93,7 +94,7 @@ set(handles.text8,'Visible','off')
 set(handles.edit9,'Visible','off')
 set(handles.text9,'Visible','off')
 
-if handles.topo ~= 2
+if handles.topo ~= 2 && handles.phase == 2
     set(handles.edit2,'Visible','off') % hide plane level for non-topo data
     set(handles.text3,'Visible','off')
     set(handles.pushbutton2,'Enable','off')
@@ -144,7 +145,7 @@ function pushbutton1_Callback(hObject, eventdata, handles) % 'do something'
 
 handles.previous = handles.im_data;
 
-if handles.topo == 2
+if handles.topo == 2 || handles.phase == 3
     handles.im_data = sp_linelevel_add(handles.im_data,...
         [1 size(handles.im_data,2)]);
 else
@@ -165,7 +166,7 @@ if handles.save
     
     fid = fopen(handles.fid,'at');
     fprintf(fid,'%% -------------------------------------------------\n');
-    if handles.topo == 2
+    if handles.topo == 2 || handles.phase == 3
         fprintf(fid,'im_data = sp_linelevel_add(im_data,[1 size(im_data,2)]);\n');
     else
         fprintf(fid,'im_data = sp_linelevel(im_data,[1 size(im_data,2)]);\n');
@@ -368,7 +369,7 @@ if width < 2
 end
 
 if str2double(get(handles.edit8,'String')) <= 0
-    if handles.topo == 2
+    if handles.topo == 2 || handles.phase == 3
         handles.im_data = sp_pathlevel_add(handles.im_data,path,width);
         
         if handles.save
@@ -419,7 +420,7 @@ else
         smoothness = str2double(get(handles.edit8,'String'));
     end
     
-    if handles.topo == 2
+    if handles.topo == 2 || handles.phase == 3
         handles.im_data = sp_pathlevel_add(handles.im_data,path,width,...
             smoothness);
         if handles.save
@@ -526,7 +527,7 @@ if get(handles.togglebutton1,'Value') && handles.levelled
     end
     
 if str2double(get(handles.edit8,'String')) <= 0
-    if handles.topo == 2
+    if handles.topo == 2 || handles.phase == 3
         handles.im_data = sp_pathlevel_add(handles.im_data,path,width);
         
         if handles.save
@@ -577,7 +578,7 @@ else
         smoothness = str2double(get(handles.edit8,'String'));
     end
     
-    if handles.topo == 2
+    if handles.topo == 2 || handles.phase == 3
         handles.im_data = sp_pathlevel_add(handles.im_data,path,width,...
             smoothness);
         if handles.save
@@ -699,7 +700,7 @@ if get(handles.togglebutton1,'Value') && handles.levelled
     end
     
 if str2double(get(handles.edit8,'String')) <= 0
-    if handles.topo == 2
+    if handles.topo == 2 || handles.phase == 3
         handles.im_data = sp_pathlevel_add(handles.im_data,path,width);
         
         if handles.save
@@ -750,7 +751,7 @@ else
         smoothness = str2double(get(handles.edit8,'String'));
     end
     
-    if handles.topo == 2
+    if handles.topo == 2 || handles.phase == 3
         handles.im_data = sp_pathlevel_add(handles.im_data,path,width,...
             smoothness);
         if handles.save
@@ -1067,7 +1068,7 @@ else
         fclose(fid);
     end
     
-    if handles.topo == 2
+    if handles.topo == 2 || handles.phase == 3
         
         handles.im_data = handles.previous - bg;
         
@@ -1112,7 +1113,7 @@ bg = sp_polybg(handles.x,handles.y,handles.previous,...
     [str2double(get(hObject,'String')) str2double(get(handles.edit5,'String'))],...
     exclude);
 
-if handles.topo == 2
+if handles.topo == 2 || handles.phase == 3
     
     handles.im_data = handles.previous - bg;
     
@@ -1165,7 +1166,7 @@ bg = sp_polybg(handles.x,handles.y,handles.previous,...
     [str2double(get(handles.edit4,'String')) str2double(get(hObject,'String'))],...
     exclude);
 
-if handles.topo == 2
+if handles.topo == 2 || handles.phase == 3
     
     handles.im_data = handles.previous - bg;
     
